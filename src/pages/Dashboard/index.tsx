@@ -1,7 +1,7 @@
 import React, {useState, FormEvent, useEffect} from 'react'
 
 import api from '../../services/api'
-
+import {Link} from 'react-router-dom'
 import logoImg from '../../assets/logo.svg'
 import {Title, Form, Repositories, Error} from './styles'
 import {FiChevronRight} from 'react-icons/fi'
@@ -12,7 +12,6 @@ interface Repository{
     owner: {
         login: string;
         avatar_url: string;
-
     }
 }
 
@@ -24,6 +23,7 @@ const Dashboard:React.FC = () => {
         if(storagedRepositories){
             return JSON.parse(storagedRepositories)
         }
+        return [];
     })
     const [newRepo, setNewRepo] = useState('')
     const [inputError, setInputError] = useState('')
@@ -67,7 +67,7 @@ const Dashboard:React.FC = () => {
 
             <Repositories >
             {repositories.map(repository => (
-                <a href="#" key={repository.full_name}>
+                <Link to={`/repository/${repository.full_name}`} key={repository.full_name}>
                     <img src={repository.owner.avatar_url}
                     alt={repository.owner.login}/>
                     <div>
@@ -75,7 +75,7 @@ const Dashboard:React.FC = () => {
                         <p>{repository.description}</p>
                     </div>
                     <FiChevronRight size={20}/>
-                </a>
+                </Link>
             ))}
 
             </Repositories>
